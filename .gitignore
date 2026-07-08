@@ -1,0 +1,87 @@
+
+# Visual Studio / .NET / C# gitignore
+# See https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
+
+## Build Folders
+bin/
+obj/
+Debug/
+Release/
+publish/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## Visual Studio Code
+.vscode/
+
+## NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Dotnet Core
+*.pidb
+*.mdb
+*.log
+*.vsix
+*.db
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## User-specific files
+*.userprefs
+
+## OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+Icon?
+
+## JetBrains Rider
+*.sln.iml
+
+## IIS Express
+/.vs/**/ApplicationHost.config
+
+## Secrets
+*.pfx
+*.key
+*.cer
+*.pubxml.user
+
+## Resharper
+_ReSharper*/
+*.DotSettings.user
+
+## Logs
+*.log
+
+# If you have any local tools or settings put them here
+# Example: local.settings.json for Azure Functions
+local.settings.json
+
+# Node artifacts (if any frontend exists)
+node_modules/
+dist/
+
+# Ignore environment files
+.env
+.env.*
+
+# Ignore package-lock from other package managers if present
+package-lock.json
+yarn.lock
+
+# End of file
