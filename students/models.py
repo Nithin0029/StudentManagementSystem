@@ -4,11 +4,17 @@ from django.db import models
 class Department(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
     
 class course(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
     credits = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 class Student(models.Model):
     gender_choices = [
