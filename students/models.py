@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.conf import settings
 
 # Create your models here.
 class Department(models.Model):
@@ -14,25 +16,27 @@ class course(models.Model):
     credits = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.code})"
+
 
 class Student(models.Model):
-    gender_choices = [
+    gender_choices = (
         ('M', 'Male'),
         ('F', 'Female'),
         ('O', 'Other'),
-    ]
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=15)
+    
+    )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='student_profile')
     dob = models.DateField()
     gender = models.CharField(max_length=10, choices=gender_choices)
+    cgpa = models.DecimalField(max_digits=4, decimal_places=2)
     photo = models.ImageField(upload_to='student_photos/', blank=True, null=True)
-    course = models.ManyToManyField(course)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
-
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    courses = models.ManyToManyField(course, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}" 
+        return self.user.get_full_name()
+    
     

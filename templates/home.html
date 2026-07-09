@@ -1,54 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
+{% block content %}
 
-    <meta charset="UTF-8">
+<h1 class="mb-4">
 
-    <title>Student Management System</title>
+Student Management Dashboard
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+</h1>
 
-</head>
+<div class="row">
 
-<body>
+<div class="col-md-3">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="card text-bg-primary">
 
-    <div class="container">
+<div class="card-body">
 
-        <a class="navbar-brand" href="/">SMS</a>
+<h3>
 
-        <ul class="navbar-nav ms-auto">
+{{ total_students }}
 
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
+</h3>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/students/students/">Students</a>
-            </li>
+<p>
 
-        </ul>
+Students
 
-    </div>
-
-</nav>
-
-<div class="container mt-4">
-
-    {% block content %}
-    <div class="p-5 mb-4 bg-light rounded-3 text-center border">
-        <h1 class="display-4 fw-bold text-primary">Welcome to Student Management System</h1>
-        <p class="lead text-secondary mt-3">A clean and simple way to manage student records, departments, and course enrollments.</p>
-        <hr class="my-4">
-        <a class="btn btn-primary btn-lg mt-2 shadow-sm" href="/students/students/" role="button">View Students</a>
-    </div>
-    {% endblock %}
+</p>
 
 </div>
 
-</body>
+</div>
 
-</html>\
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-bg-success">
+
+<div class="card-body">
+
+<h3>
+
+{{ total_departments }}
+
+</h3>
+
+<p>
+
+Departments
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-bg-warning">
+
+<div class="card-body">
+
+<h3>
+
+{{ total_courses }}
+
+</h3>
+
+<p>
+
+Courses
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-bg-danger">
+
+<div class="card-body">
+
+<h3>
+
+{{ average_cgpa|floatformat:2 }}
+
+</h3>
+
+<p>
+
+Average CGPA
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<a
+href="{% url 'student_list' %}"
+class="btn btn-primary">
+
+View Students
+
+</a>
+
+{% endblock %}
