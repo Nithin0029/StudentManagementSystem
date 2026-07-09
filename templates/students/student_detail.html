@@ -2,63 +2,66 @@
 
 {% block content %}
 
-<h2>
-
-    {{ student.first_name }}
-    {{ student.last_name }}
-
-</h2>
-
-<hr>
-
-<table class="table">
-
-<tr>
-
-<th>Email</th>
-
-<td>{{ student.email }}</td>
-
-</tr>
-
-<tr>
-
-<th>Phone</th>
-
-<td>{{ student.phone }}</td>
-
-</tr>
-
-<tr>
-
-<th>Department</th>
-
-<td>{{ student.department }}</td>
-
-</tr>
-
-<tr>
-
-<th>Gender</th>
-
-<td>{{ student.gender }}</td>
-
-</tr>
-
-<tr>
-
-<th>Course</th>
-
-<td>{{ student.course }}</td>
-
-</tr>
-
-</table>
-
-<a href="{% url 'student_list' %}" class="btn btn-secondary">
-
-Back
-
-</a>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card detail-card mt-3">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0 text-primary">
+                    {{ student.first_name }} {{ student.last_name }}
+                </h2>
+                <span class="badge bg-primary px-3 py-2 fs-6">Student Profile</span>
+            </div>
+            
+            <hr class="my-3 opacity-10">
+            
+            <table class="table detail-table">
+                <tbody>
+                    <tr>
+                        <th>Email Address</th>
+                        <td>{{ student.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>{{ student.phone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{ student.department.name }} (Building: {{ student.department.building }})</td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th>
+                        <td><span class="text-capitalize">{{ student.gender|lower }}</span></td>
+                    </tr>
+                    <tr>
+                        <th>Date of Birth</th>
+                        <td>{{ student.dob|date:"F d, Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Enrolled Course</th>
+                        <td>
+                            {% if student.course %}
+                                <span class="badge bg-success">{{ student.course.name }}</span>
+                            {% else %}
+                                <span class="text-muted">Not enrolled</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="mt-4 d-flex gap-2">
+                <a href="{% url 'student_list' %}" class="btn btn-secondary px-4">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+                <a href="{% url 'student_update' student.id %}" class="btn btn-primary px-4">
+                    <i class="bi bi-pencil"></i> Edit Student
+                </a>
+                <a href="{% url 'student_delete' student.id %}" class="btn btn-danger px-4 text-white">
+                    <i class="bi bi-trash"></i> Delete Student
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

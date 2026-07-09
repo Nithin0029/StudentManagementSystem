@@ -1,40 +1,36 @@
 from django import forms
-from .models import Student
+from .models import student
 
 
 class StudentForm(forms.ModelForm):
     class Meta:
-        model = Student
+        model = student
         fields = [
             'first_name',
             'last_name',
             'email',
+            'phone',
             'dob',
             'gender',
-            'photo',
             'department',
-            'courses',
+            'course',
         ]
 
         widgets = {
             'dob': forms.DateInput(attrs={'type': 'date'}),
-            'courses': forms.CheckboxSelectMultiple(),
         }
 
-        def clean_email(self):
-            email = self.cleaned_data.get('email')
-            if Student.objects.filter(email=email).exists():
-                raise forms.ValidationError("This email is already in use.")
-            return email
-        
-        def clean_cgpa(self):
-            cgpa = self.cleaned_data.get('cgpa')
-            if cgpa < 0 or cgpa > 10:
-                raise forms.ValidationError("CGPA must be between 0 and 10.")
-            return cgpa
-        
-        def clean_phone_number(self):
-            phone_number = self.cleaned_data.get('phone_number')
-            if not phone_number.isdigit() or len(phone_number) != 10:
-                raise forms.ValidationError("Phone number must be a 10-digit number.")
-            return phone_number
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        queryset = student.objects.filter(email=email)
+        if self.instance.pk:
+            queryset = queryset.exclude(pk=self.instance.pk)
+        if queryset.exists():
+            raise forms.ValidationError("This email is already in use.")
+        return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone', '')
+        if not phone.isdigit() or len(phone) != 10:
+            raise forms.ValidationError("Phone number must be a 10-digit number.")
+        return phone

@@ -6,6 +6,10 @@
     Student List
 </h2>
 
+<a href="{% url 'student_create' %}" class="btn btn-primary mb-4">
+    Add Student
+</a>
+
 <table class="table table-bordered table-striped">
 
     <thead class="table-dark">
@@ -42,16 +46,23 @@
 
             <td>{{ student.department }}</td>
 
-            <td>{{ student.course }}</td>
+            <td>{{ student.course.name }}</td>
 
             <td>
 
-                <a href="{% url 'student_detail' student.id %}"
-                   class="btn btn-primary btn-sm">
+               <a
+href="{% url 'student_detail' student.id %}"
+class="btn btn-primary btn-sm">
 
-                    View
+View
 
-                </a>
+</a>
+
+
+<a href="{% url 'student_update' student.id %}"
+class="btn btn-warning btn-sm">
+Edit
+</a>
 
             </td>
 
