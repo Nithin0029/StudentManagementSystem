@@ -1,22 +1,34 @@
-from django.shortcuts import redirect, render,get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 
 from student.forms import StudentForm
-from .models import student, Department, Course
+from .models import Department, Course, student
+
 
 def home(request):
     total_students = student.objects.count()
     total_departments = Department.objects.count()
     total_courses = Course.objects.count()
-    context = {'total_students': total_students,
+    average_cgpa = 0
+
+    context = {
+        'total_students': total_students,
         'total_departments': total_departments,
-        'total_courses': total_courses}
+        'total_courses': total_courses,
+        'average_cgpa': average_cgpa,
+    }
     return render(request, 'home.html', context)
 
-def student_list(request):
-    students=student.objects.all().order_by('first_name')
 
-    context={
-        'students': students
+def student_list(request):
+    search = request.GET.get('search', '')
+    if search:
+        students = student.objects.filter(first_name__icontains=search)
+    else:
+        students = student.objects.all().order_by('first_name')
+
+    context = {
+        'students': students,
+        'search': search
     }
 
     return render(request, 'students/student_list.html', context)
