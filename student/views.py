@@ -1,11 +1,11 @@
 from django.shortcuts import redirect, render, get_object_or_404
 
 from student.forms import StudentForm
-from .models import Department, Course, student
+from .models import Department, Course, Student
 
 
 def home(request):
-    total_students = student.objects.count()
+    total_students = Student.objects.count()
     total_departments = Department.objects.count()
     total_courses = Course.objects.count()
     average_cgpa = 0
@@ -22,9 +22,9 @@ def home(request):
 def student_list(request):
     search = request.GET.get('search', '')
     if search:
-        students = student.objects.filter(first_name__icontains=search)
+        students = Student.objects.filter(first_name__icontains=search)
     else:
-        students = student.objects.all().order_by('first_name')
+        students = Student.objects.all().order_by('first_name')
 
     context = {
         'students': students,
@@ -34,7 +34,7 @@ def student_list(request):
     return render(request, 'students/student_list.html', context)
 
 def student_detail(request, student_id):
-    student_record = get_object_or_404(student, id=student_id)
+    student_record = get_object_or_404(Student, id=student_id)
 
     context = {
         'student': student_record
@@ -46,7 +46,18 @@ def student_create(request):
     if request.method == 'POST':
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            student_obj = form.save(commit=False)
+            if not student_obj.user_id:
+                from django.contrib.auth import get_user_model
+                user_model = get_user_model()
+                username = f"student_{student_obj.email.split('@')[0]}"
+                user = user_model.objects.create_user(
+                    username=username,
+                    email=student_obj.email,
+                    password='Student@123'
+                )
+                student_obj.user = user
+            student_obj.save()
             return redirect('student_list')
     else:
         form = StudentForm()
@@ -56,7 +67,7 @@ def student_create(request):
 
 
 def student_update(request, student_id):
-    student_obj = get_object_or_404(student, id=student_id)
+    student_obj = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
         form = StudentForm(request.POST, request.FILES, instance=student_obj)
         if form.is_valid():
@@ -68,7 +79,7 @@ def student_update(request, student_id):
     return render(request, 'students/student_form.html', {'form': form, 'title': 'Update Student'})
 
 def student_delete(request, student_id):
-    student_obj = get_object_or_404(student, id=student_id)
+    student_obj = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
         student_obj.delete()
         return redirect('student_list')
