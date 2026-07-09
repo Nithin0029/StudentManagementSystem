@@ -1,10 +1,16 @@
 from django.shortcuts import redirect, render,get_object_or_404
 
 from student.forms import StudentForm
-from .models import student
+from .models import student, Department, Course
 
 def home(request):
-    return render(request, 'home.html')
+    total_students = student.objects.count()
+    total_departments = Department.objects.count()
+    total_courses = Course.objects.count()
+    context = {'total_students': total_students,
+        'total_departments': total_departments,
+        'total_courses': total_courses}
+    return render(request, 'home.html', context)
 
 def student_list(request):
     students=student.objects.all().order_by('first_name')

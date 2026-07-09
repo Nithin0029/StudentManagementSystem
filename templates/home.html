@@ -1,19 +1,121 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
 
-<div class="text-center">
+<h1 class="mb-4">
 
-    <h1>Student Management System</h1>
+Student Management Dashboard
 
-    <p class="lead">
-        Welcome to Django Student Management System.
-    </p>
+</h1>
 
-    <a href="{% url 'student_list' %}" class="btn btn-primary">
-        View Students
-    </a>
+<div class="row">
+
+<div class="col-md-3">
+
+<div class="card text-bg-primary">
+
+<div class="card-body">
+
+<h3>
+
+{{ total_students }}
+
+</h3>
+
+<p>
+
+Students
+
+</p>
 
 </div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-bg-success">
+
+<div class="card-body">
+
+<h3>
+
+{{ total_departments }}
+
+</h3>
+
+<p>
+
+Departments
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-bg-warning">
+
+<div class="card-body">
+
+<h3>
+
+{{ total_courses }}
+
+</h3>
+
+<p>
+
+Courses
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-bg-danger">
+
+<div class="card-body">
+
+<h3>
+
+{{ average_cgpa|floatformat:2 }}
+
+</h3>
+
+<p>
+
+Average CGPA
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<a
+href="{% url 'student_list' %}"
+class="btn btn-primary">
+
+View Students
+
+</a>
 
 {% endblock %}
