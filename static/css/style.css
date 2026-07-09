@@ -1,8 +1,26 @@
 body{
     background-color: #f8f9fa;
-    font-family:Arial,sans-serif;
+    font-family: Arial, sans-serif;
 }
-h1,h2,h3{
+
+h1, h2, h3 {
     color: #343a40;
     margin-bottom: 20px;
+}
+
+.navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #ffffff !important;
 }
