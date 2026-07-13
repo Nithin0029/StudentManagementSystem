@@ -6,6 +6,40 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'role', 'is_staff', 'is_active')
-    list_filter = ('role', 'is_staff', 'is_active')
-     
+
+    list_display = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "role",
+        "is_staff",
+        
+    )
+
+
+    fieldsets = UserAdmin.fieldsets + (
+        (
+            "Additional Information",
+            {
+                "fields": (
+                    "phone_number",
+                    "profile_picture",
+                    "role",
+                )
+            },
+        ),
+    )
+
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (
+            "Additional Information",
+            {
+                "fields": (
+                    "phone_number",
+                    "profile_picture",
+                    "role",
+                )
+            },
+        ),
+    )

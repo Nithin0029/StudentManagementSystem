@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<<<<<<< HEAD
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card detail-card mt-3">
@@ -62,6 +63,88 @@
             </div>
         </div>
     </div>
+=======
+<div class="container mt-4">
+
+    <h2>{{ student.user.get_full_name }}</h2>
+
+    <hr>
+
+    {% if student.photo %}
+        <img src="{{ student.photo.url }}"
+             width="200"
+             class="img-thumbnail mb-3">
+    {% endif %}
+
+    <table class="table table-bordered">
+
+        <tr>
+            <th>Username</th>
+            <td>{{ student.user.username }}</td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>{{ student.user.email }}</td>
+        </tr>
+
+        <tr>
+            <th>Phone</th>
+            <td>{{ student.user.phone }}</td>
+        </tr>
+
+        <tr>
+            <th>Department</th>
+            <td>{{ student.department.name }}</td>
+        </tr>
+
+        <tr>
+            <th>Gender</th>
+            <td>{{ student.gender }}</td>
+        </tr>
+
+        <tr>
+            <th>Date of Birth</th>
+            <td>{{ student.dob }}</td>
+        </tr>
+
+        <tr>
+            <th>CGPA</th>
+            <td>{{ student.cgpa }}</td>
+        </tr>
+
+        <tr>
+            <th>Courses</th>
+            <td>
+                {% for course in student.courses.all %}
+                    <span class="badge bg-success">
+                        {{ course.name }}
+                    </span>
+                {% empty %}
+                    No Courses
+                {% endfor %}
+            </td>
+        </tr>
+
+    </table>
+
+    <a href="{% url 'student_list' %}" class="btn btn-secondary">
+        Back
+    </a>
+
+    {% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
+        <a href="{% url 'student_edit' student.id %}" class="btn btn-warning">
+            Edit
+        </a>
+    {% endif %}
+
+    {% if request.user.role == "ADMIN" %}
+        <a href="{% url 'student_delete' student.id %}" class="btn btn-danger">
+            Delete
+        </a>
+    {% endif %}
+
+>>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 </div>
 
 {% endblock %}

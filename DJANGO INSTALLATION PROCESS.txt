@@ -1,0 +1,210 @@
+ 
+
+venv/Scripts/activate - activate venv  
+
+ 
+
+pip install django  
+
+ 
+
+django-admin startproject student_management . 
+
+ 
+
+python manage.py startapp student 
+
+ 
+
+python manage.py startapp accounts 
+
+ 
+
+python -m venv venv --------virtal env  
+
+ 
+
+Add students and accounts to setting.py under installed apps  
+
+  STATICFILES_DIRS = [BASE_DIR / 'static'] 
+
+ MEDIA_URL = '/media/' 
+
+ MEDIA_ROOT = BASE_DIR / 'media' - add this to settings.py under static files  
+
+ 
+
+    add include after path , and add path of students and accounts underneath, add if part and include all required libraries 
+
+ 
+
+from django.contrib import admin 
+
+from django.urls import path,include 
+
+urlpatterns = [ 
+
+    path('admin/', admin.site.urls), 
+
+    path('students/', include('students.urls')), 
+
+    path('accounts/', include('accounts.urls')), 
+
+] 
+
+ 
+
+if settings.DEBUG: 
+
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  
+
+ 
+
+    
+
+Create a urls.py file under students and add code suggested  
+
+ 
+
+
+ 
+
+ 
+
+Under students, views.py update code  
+
+ 
+
+ 
+
+ 
+
+In a new terminal , on the main project - mkdir templates  
+
+ 
+
+Add  
+
+In settings.py 
+
+ 
+
+ 
+
+Add home.html file under templates and add basic code  
+
+ 
+
+Create urls.py under accounts add code  
+
+ 
+
+Migrate and create super user  
+
+Using commands -- python manage.py migrate and python manage.py createsuperuser (give admin , admin@gmail.com , admin ) 
+
+ 
+
+ 
+
+ path('',RedirectView.as_view(url='students/', permanent=True)), 
+
+Add this line urls.py under student management  
+
+ 
+
+Run - python manage.py runserver 
+
+ 
+
+Open models.py under students create a model sample like class dept, course and student 
+
+ 
+
+Update admin.py add the models created under model.py  
+
+ 
+
+pip install pillow - for photos 
+
+ 
+
+Create a file - static under student_mgmt main  
+
+ 
+
+ login thru admin portal and to add or delete the info use commands  
+
+ one - python manage.py makemigrations  
+
+Two - python manage.py migrate  
+
+Three - python manage.py runserver  
+
+ 
+
+ 
+
+python manage.py shell - allows u to execute sql commands  
+
+ 
+
+>>> from students.models import student  
+
+>>> students.objects.all() 
+
+>>>student.objects.count() 
+
+>>>student.objects.filter(gender="male") 
+
+>>>student.objects.filter(gender="female") 
+
+ 
+
+Create base.html under templates and a folder named students  
+
+under studnets student_list.html and student_detail.html 
+
+Under static folder create css and images  
+
+Under css - style.css 
+
+ 
+
+Edit views.py under students and all the two html files details added  
+
+Add path to urls.py 
+
+Update html files  
+
+ 
+
+Create forms.py under student  
+
+ 
+********************API*******************************
+
+pip install djangorestframework
+pip manage.py startapp api
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 

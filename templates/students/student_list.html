@@ -6,9 +6,19 @@
     Student List
 </h2>
 
+<<<<<<< HEAD
 <a href="{% url 'student_create' %}" class="btn btn-primary mb-4">
     Add Student
 </a>
+=======
+{% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
+
+<a href="{% url 'student_add' %}" class="btn btn-success">
+Add Student
+</a>
+
+{% endif %}
+>>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 <form method="GET">
 
 <div class="row">
@@ -46,7 +56,10 @@ Search
 </form>
 
 <br>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 <table class="table table-bordered table-striped">
 
     <thead class="table-dark">
@@ -61,7 +74,11 @@ Search
 
             <th>Department</th>
 
+<<<<<<< HEAD
             <th>Course</th>
+=======
+            <th>CGPA</th>
+>>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 
             <th></th>
 
@@ -77,6 +94,7 @@ Search
 
             <td>{{ student.id }}</td>
 
+<<<<<<< HEAD
             <td>{{ student.first_name }} {{ student.last_name }}</td>
 
             <td>{{ student.email }}</td>
@@ -88,6 +106,19 @@ Search
             <td>
 
                <a
+=======
+            <td>{{ student.user.get_full_name }}</td>
+
+            <td>{{ student.user.email }}</td>
+
+            <td>{{ student.user.department }}</td>
+
+            <td>{{ student.user.cgpa }}</td>
+
+         <td>
+
+<a
+>>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 href="{% url 'student_detail' student.id %}"
 class="btn btn-primary btn-sm">
 
@@ -95,13 +126,34 @@ View
 
 </a>
 
+<<<<<<< HEAD
 
 <a href="{% url 'student_update' student.id %}"
+=======
+{% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
+
+<a href="{% url 'student_edit' student.id %}"
+>>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 class="btn btn-warning btn-sm">
 Edit
 </a>
 
+<<<<<<< HEAD
             </td>
+=======
+{% endif %}
+
+{% if request.user.role == "ADMIN" %}
+
+<a href="{% url 'student_delete' student.id %}"
+class="btn btn-danger btn-sm">
+Delete
+</a>
+
+{% endif %}
+
+</td>
+>>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 
         </tr>
 
