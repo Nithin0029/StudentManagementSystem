@@ -1,5 +1,4 @@
 from django.contrib import admin
-from students.models import Student
 from students.models import Student, Department, course
 
 # Register your models here.
@@ -7,7 +6,7 @@ from students.models import Student, Department, course
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('id','user', 'cgpa', 'department')
     list_filter = ('department', 'gender')
-    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'user_email')
+    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'user__email')
     filter_horizontal = ('courses',)
    
 

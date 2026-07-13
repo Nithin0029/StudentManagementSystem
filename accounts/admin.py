@@ -9,23 +9,34 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = (
         "username",
+        "first_name",
+        "last_name",
         "email",
         "role",
         "is_staff",
-        "is_active",
+        
     )
 
-    list_filter = (
-        "role",
-        "is_staff",
-    )
 
     fieldsets = UserAdmin.fieldsets + (
         (
             "Additional Information",
             {
                 "fields": (
-                    "phone",
+                    "phone_number",
+                    "profile_picture",
+                    "role",
+                )
+            },
+        ),
+    )
+
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (
+            "Additional Information",
+            {
+                "fields": (
+                    "phone_number",
                     "profile_picture",
                     "role",
                 )

@@ -8,7 +8,7 @@ class CustomUser(AbstractUser):
         ('ADMIN', 'Admin'),
         ('USER', 'User'),
         ('TEACHER', 'Teacher'),
-
+        ('STUDENT', 'Student'),
     )
     
     phone_number = models.CharField(max_length=10, blank=True, null=True)

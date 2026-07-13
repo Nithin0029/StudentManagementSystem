@@ -2,32 +2,28 @@
 
 {% block content %}
 
-<h1 class="mb-4">
+<div class="container mt-4">
 
-Student Management Dashboard
+<h2>
 
-</h1>
+Welcome {{ request.user.first_name }}
+
+</h2>
+
+<hr>
 
 <div class="row">
 
 <div class="col-md-3">
 
-<div class="card text-bg-primary">
+<div class="card text-center">
 
 <div class="card-body">
 
-<h3>
-
-{{ total_students }}
-
-</h3>
-
-<p>
+<h3>{{ total_students }}</h3>
 
 Students
 
-</p>
-
 </div>
 
 </div>
@@ -36,22 +32,14 @@ Students
 
 <div class="col-md-3">
 
-<div class="card text-bg-success">
+<div class="card text-center">
 
 <div class="card-body">
 
-<h3>
-
-{{ total_departments }}
-
-</h3>
-
-<p>
+<h3>{{ total_departments }}</h3>
 
 Departments
 
-</p>
-
 </div>
 
 </div>
@@ -60,22 +48,14 @@ Departments
 
 <div class="col-md-3">
 
-<div class="card text-bg-warning">
+<div class="card text-center">
 
 <div class="card-body">
 
-<h3>
-
-{{ total_courses }}
-
-</h3>
-
-<p>
+<h3>{{ total_courses }}</h3>
 
 Courses
 
-</p>
-
 </div>
 
 </div>
@@ -84,21 +64,13 @@ Courses
 
 <div class="col-md-3">
 
-<div class="card text-bg-danger">
+<div class="card text-center">
 
 <div class="card-body">
 
-<h3>
-
-{{ average_cgpa|floatformat:2 }}
-
-</h3>
-
-<p>
+<h3>{{ average_cgpa|floatformat:2 }}</h3>
 
 Average CGPA
-
-</p>
 
 </div>
 
@@ -110,12 +82,18 @@ Average CGPA
 
 <br>
 
-<a
-href="{% url 'student_list' %}"
-class="btn btn-primary">
+<h5>
 
-View Students
+Logged in as
 
-</a>
+<span class="badge bg-primary">
+
+{{ request.user.role }}
+
+</span>
+
+</h5>
+
+</div>
 
 {% endblock %}

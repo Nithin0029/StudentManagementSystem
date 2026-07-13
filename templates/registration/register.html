@@ -1,27 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h2>{{ title }}</h2>
+<h2 class="mb-4">Register</h2>
 
 <form method="POST" enctype="multipart/form-data">
-
     {% csrf_token %}
-
     {{ form.as_p }}
-
-    <button class="btn btn-success">
-
-        Save
-
+    <button class="btn btn-primary">
+        Register
     </button>
-
-    <a href="{% url 'student_list' %}" class="btn btn-secondary">
-
-        Cancel
-
-    </a>
-
 </form>
-
 {% endblock %}

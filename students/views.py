@@ -1,77 +1,109 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Department, Student, course
-from .forms import StudentForm
-from django.db.models import Avg
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Avg
+from django.urls import reverse_lazy
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
-# Create your views here.
-def home(request):
-    total_students = Student.objects.count()
-    total_departments = Department.objects.count()
-    total_courses = course.objects.count()
-    average_cgpa = Student.objects.aggregate(Avg('cgpa'))['cgpa__avg']
+from .models import Student, Department, course
+from .forms import StudentForm
+from accounts.mixins import AdminRequiredMixin, TeacherRequiredMixin
 
-    context = {
-        'total_students': total_students,
-        'total_departments': total_departments,
-        'total_courses': total_courses,
-        'average_cgpa':  round(average_cgpa, 2) if average_cgpa else 0.00,
-    }
-    return render(request, 'home.html', context)
+class HomeView(LoginRequiredMixin, TemplateView):
+    template_name = "home.html"
 
-def student_list(request):
-    search = request.GET.get('search')
-    students = Student.objects.all()
-    if search:
-        students = students.filter(first_name__icontains=search) | students.filter(last_name__icontains=search) | students.filter(email__icontains=search)
-    students = students.order_by('user__first_name', 'user__last_name')
-    context = {
-        'students': students,
-        'search': search,
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    return render(request, 'students/student_list.html', context)
+        context["total_students"] = Student.objects.count()
+        context["total_departments"] = Department.objects.count()
+        context["total_courses"] = course.objects.count()
 
-def student_detail(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
+        context["average_cgpa"] = (
+            Student.objects.aggregate(Avg("cgpa"))["cgpa__avg"] or 0
+        )
 
-    context = {
-        'student': student,
-    }
+        return context
 
-    return render(request, 'students/student_detail.html', context)
 
-def student_create(request):
-    if request.method == 'POST':
-        form = StudentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Student created successfully.')
-            return redirect('student_list')
-    else:
-        form = StudentForm()
+class StudentListView(LoginRequiredMixin, ListView):
+    model = Student
+    template_name = "students/student_list.html"
+    context_object_name = "students"
 
-    return render(request, 'students/student_form.html', {'form': form, 'title': 'Create Student'})
+    def get_queryset(self):
 
-def student_update(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
+        queryset = Student.objects.select_related(
+            "user",
+            "department"
+        ).prefetch_related("courses")
 
-    if request.method == 'POST':
-        form = StudentForm(request.POST, request.FILES, instance=student)
-        if form.is_valid():
-            form.save()
-            return redirect('student_list')
-    else:
-        form = StudentForm(instance=student)
+        search = self.request.GET.get("search")
 
-    return render(request, 'students/student_form.html', {'form': form, 'student': student, 'title': 'Update Student'})
+        if search:
+            queryset = queryset.filter(
+                user__first_name__icontains=search
+            )
 
-def student_delete(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
+        return queryset.order_by("user__first_name")
 
-    if request.method == 'POST':
-        student.delete()
-        messages.success(request, 'Student deleted successfully.')
-        return redirect('student_list')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search"] = self.request.GET.get("search", "")
+        return context
 
-    return render(request, 'students/student_delete.html', {'student': student, 'title': 'Delete Student'})
+
+class StudentDetailView(LoginRequiredMixin, DetailView):
+    model = Student
+    template_name = "students/student_detail.html"
+    context_object_name = "student"
+    pk_url_kwarg = "student_id"
+
+
+class StudentCreateView(LoginRequiredMixin, TeacherRequiredMixin, CreateView):
+    model = Student
+    form_class = StudentForm
+    template_name = "students/student_form.html"
+    success_url = reverse_lazy("student_list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Student Added Successfully")
+        return super().form_valid(form)
+
+    
+
+
+class StudentUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView):
+    model = Student
+    form_class = StudentForm
+    template_name = "students/student_form.html"
+    success_url = reverse_lazy("student_list")
+    pk_url_kwarg = "student_id"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Student Updated Successfully")
+        return super().form_valid(form)
+
+
+class StudentDeleteView(LoginRequiredMixin, AdminRequiredMixin, DeleteView):
+    model = Student
+    template_name = "students/student_confirm_delete.html"
+    success_url = reverse_lazy("student_list")
+    pk_url_kwarg = "student_id"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Student Deleted Successfully")
+        return super().form_valid(form)
+
+home = HomeView.as_view()
+student_list = StudentListView.as_view()
+student_detail = StudentDetailView.as_view()
+student_create = StudentCreateView.as_view()
+student_update = StudentUpdateView.as_view()
+student_delete = StudentDeleteView.as_view()

@@ -1,16 +1,23 @@
-from django.shortcuts import render
-from django.contrib import messages
-from .forms import RegistrationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView, CreateView
+from django.urls import reverse_lazy
+from .forms import RegisterForm
 
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'
+    redirect_authenticated_user = True
 
-def register(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Registration successful. You can now log in.')
-            return render(request, 'accounts/login.html')
-    else:
-        form = RegistrationForm()
+    def get_success_url(self):
+        return reverse_lazy('home')
 
-    return render(request, 'registration/register.html', {'form': form})
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+    
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'registration/profile.html'
+    
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('login')
