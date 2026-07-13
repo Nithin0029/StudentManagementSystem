@@ -1,150 +1,80 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
-
-<<<<<<< HEAD
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card detail-card mt-3">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold mb-0 text-primary">
-                    {{ student.first_name }} {{ student.last_name }}
-                </h2>
-                <span class="badge bg-primary px-3 py-2 fs-6">Student Profile</span>
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-body">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+            <div>
+                <h2 class="mb-1">{{ student.user.get_full_name }}</h2>
+                <p class="text-muted mb-0">Student profile details and academic information.</p>
             </div>
-            
-            <hr class="my-3 opacity-10">
-            
-            <table class="table detail-table">
-                <tbody>
-                    <tr>
-                        <th>Email Address</th>
-                        <td>{{ student.email }}</td>
-                    </tr>
-                    <tr>
-                        <th>Phone Number</th>
-                        <td>{{ student.phone }}</td>
-                    </tr>
-                    <tr>
-                        <th>Department</th>
-                        <td>{{ student.department.name }} (Building: {{ student.department.building }})</td>
-                    </tr>
-                    <tr>
-                        <th>Gender</th>
-                        <td><span class="text-capitalize">{{ student.gender|lower }}</span></td>
-                    </tr>
-                    <tr>
-                        <th>Date of Birth</th>
-                        <td>{{ student.dob|date:"F d, Y" }}</td>
-                    </tr>
-                    <tr>
-                        <th>Enrolled Course</th>
-                        <td>
-                            {% if student.course %}
-                                <span class="badge bg-success">{{ student.course.name }}</span>
-                            {% else %}
-                                <span class="text-muted">Not enrolled</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="mt-4 d-flex gap-2">
-                <a href="{% url 'student_list' %}" class="btn btn-secondary px-4">
-                    <i class="bi bi-arrow-left"></i> Back to List
-                </a>
-                <a href="{% url 'student_update' student.id %}" class="btn btn-primary px-4">
-                    <i class="bi bi-pencil"></i> Edit Student
-                </a>
-                <a href="{% url 'student_delete' student.id %}" class="btn btn-danger px-4 text-white">
-                    <i class="bi bi-trash"></i> Delete Student
-                </a>
+            {% if student.photo %}
+                <img src="{{ student.photo.url }}" class="rounded border" style="max-width:200px; object-fit:cover;" alt="{{ student.user.get_full_name }}">
+            {% endif %}
+        </div>
+
+        <div class="row gy-3">
+            <div class="col-lg-6">
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="py-3">Username</th>
+                            <td class="py-3">{{ student.user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th class="py-3">Email</th>
+                            <td class="py-3">{{ student.user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th class="py-3">Phone</th>
+                            <td class="py-3">{{ student.user.phone_number|default:'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <th class="py-3">Department</th>
+                            <td class="py-3">{{ student.department.name|default:'N/A' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="py-3">Gender</th>
+                            <td class="py-3">{{ student.get_gender_display }}</td>
+                        </tr>
+                        <tr>
+                            <th class="py-3">Date of Birth</th>
+                            <td class="py-3">{{ student.dob|date:"F d, Y" }}</td>
+                        </tr>
+                        <tr>
+                            <th class="py-3">CGPA</th>
+                            <td class="py-3">{{ student.cgpa }}</td>
+                        </tr>
+                        <tr>
+                            <th class="py-3">Courses</th>
+                            <td class="py-3">
+                                {% for course in student.courses.all %}
+                                    <span class="badge bg-success me-1 mb-1">{{ course.name }}</span>
+                                {% empty %}
+                                    <span class="text-muted">No courses assigned</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <div class="mt-4 d-flex flex-wrap gap-2">
+            <a href="{% url 'student_list' %}" class="btn btn-secondary">Back</a>
+            {% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
+                <a href="{% url 'student_update' student.id %}" class="btn btn-warning">Edit</a>
+            {% endif %}
+            {% if request.user.role == "ADMIN" %}
+                <a href="{% url 'student_delete' student.id %}" class="btn btn-danger">Delete</a>
+            {% endif %}
+        </div>
     </div>
-=======
-<div class="container mt-4">
-
-    <h2>{{ student.user.get_full_name }}</h2>
-
-    <hr>
-
-    {% if student.photo %}
-        <img src="{{ student.photo.url }}"
-             width="200"
-             class="img-thumbnail mb-3">
-    {% endif %}
-
-    <table class="table table-bordered">
-
-        <tr>
-            <th>Username</th>
-            <td>{{ student.user.username }}</td>
-        </tr>
-
-        <tr>
-            <th>Email</th>
-            <td>{{ student.user.email }}</td>
-        </tr>
-
-        <tr>
-            <th>Phone</th>
-            <td>{{ student.user.phone }}</td>
-        </tr>
-
-        <tr>
-            <th>Department</th>
-            <td>{{ student.department.name }}</td>
-        </tr>
-
-        <tr>
-            <th>Gender</th>
-            <td>{{ student.gender }}</td>
-        </tr>
-
-        <tr>
-            <th>Date of Birth</th>
-            <td>{{ student.dob }}</td>
-        </tr>
-
-        <tr>
-            <th>CGPA</th>
-            <td>{{ student.cgpa }}</td>
-        </tr>
-
-        <tr>
-            <th>Courses</th>
-            <td>
-                {% for course in student.courses.all %}
-                    <span class="badge bg-success">
-                        {{ course.name }}
-                    </span>
-                {% empty %}
-                    No Courses
-                {% endfor %}
-            </td>
-        </tr>
-
-    </table>
-
-    <a href="{% url 'student_list' %}" class="btn btn-secondary">
-        Back
-    </a>
-
-    {% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
-        <a href="{% url 'student_edit' student.id %}" class="btn btn-warning">
-            Edit
-        </a>
-    {% endif %}
-
-    {% if request.user.role == "ADMIN" %}
-        <a href="{% url 'student_delete' student.id %}" class="btn btn-danger">
-            Delete
-        </a>
-    {% endif %}
-
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
 </div>
-
 {% endblock %}

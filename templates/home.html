@@ -1,193 +1,54 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 
 {% block content %}
+<div class="py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="h3 mb-1">Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
+            <p class="text-muted mb-0">Manage students, departments, and academic records from one dashboard.</p>
+        </div>
+        <div>
+            <span class="badge bg-secondary fs-6">Role: {{ request.user.role|default:'Guest' }}</span>
+        </div>
+    </div>
 
-<<<<<<< HEAD
-<h1 class="mb-4">
+    <div class="row g-3">
+        <div class="col-sm-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center py-4">
+                    <p class="text-uppercase text-muted mb-2">Students</p>
+                    <h2 class="display-6 mb-0">{{ total_students }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center py-4">
+                    <p class="text-uppercase text-muted mb-2">Departments</p>
+                    <h2 class="display-6 mb-0">{{ total_departments }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center py-4">
+                    <p class="text-uppercase text-muted mb-2">Courses</p>
+                    <h2 class="display-6 mb-0">{{ total_courses }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center py-4">
+                    <p class="text-uppercase text-muted mb-2">Average CGPA</p>
+                    <h2 class="display-6 mb-0">{{ average_cgpa|floatformat:2 }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 
-Student Management Dashboard
-
-</h1>
-=======
-<div class="container mt-4">
-
-<h2>
-
-Welcome {{ request.user.first_name }}
-
-</h2>
-
-<hr>
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-
-<div class="row">
-
-<div class="col-md-3">
-
-<<<<<<< HEAD
-<div class="card text-bg-primary">
-
-<div class="card-body">
-
-<h3>
-
-{{ total_students }}
-
-</h3>
-
-<p>
-
-Students
-
-</p>
-
-=======
-<div class="card text-center">
-
-<div class="card-body">
-
-<h3>{{ total_students }}</h3>
-
-Students
-
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
+    <div class="mt-4">
+        <a href="{% url 'student_list' %}" class="btn btn-primary">View Students</a>
+    </div>
 </div>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<<<<<<< HEAD
-<div class="card text-bg-success">
-
-<div class="card-body">
-
-<h3>
-
-{{ total_departments }}
-
-</h3>
-
-<p>
-
-Departments
-
-</p>
-
-=======
-<div class="card text-center">
-
-<div class="card-body">
-
-<h3>{{ total_departments }}</h3>
-
-Departments
-
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<<<<<<< HEAD
-<div class="card text-bg-warning">
-
-<div class="card-body">
-
-<h3>
-
-{{ total_courses }}
-
-</h3>
-
-<p>
-
-Courses
-
-</p>
-
-=======
-<div class="card text-center">
-
-<div class="card-body">
-
-<h3>{{ total_courses }}</h3>
-
-Courses
-
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<<<<<<< HEAD
-<div class="card text-bg-danger">
-
-<div class="card-body">
-
-<h3>
-
-{{ average_cgpa|floatformat:2 }}
-
-</h3>
-
-<p>
-
-Average CGPA
-
-</p>
-
-=======
-<div class="card text-center">
-
-<div class="card-body">
-
-<h3>{{ average_cgpa|floatformat:2 }}</h3>
-
-Average CGPA
-
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<<<<<<< HEAD
-<a
-href="{% url 'student_list' %}"
-class="btn btn-primary">
-
-View Students
-
-</a>
-=======
-<h5>
-
-Logged in as
-
-<span class="badge bg-primary">
-
-{{ request.user.role }}
-
-</span>
-
-</h5>
-
-</div>
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-
 {% endblock %}

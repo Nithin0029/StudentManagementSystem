@@ -1,31 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h2>{{ title }}</h2>
-
-<<<<<<< HEAD
-<form method="POST" enctype="multipart/form-data" action="{% url 'student_create' %}">
-=======
-<form method="POST" enctype="multipart/form-data">
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button class="btn btn-success">
-
-        Save
-
-    </button>
-
-    <a href="{% url 'student_list' %}" class="btn btn-secondary">
-
-        Cancel
-
-    </a>
-
-</form>
-
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-body">
+        <h2 class="mb-4">{{ title }}</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                <button class="btn btn-success">Save</button>
+                <a href="{% url 'student_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -1,178 +1,63 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
-
-<h2 class="mb-4">
-    Student List
-</h2>
-
-<<<<<<< HEAD
-<a href="{% url 'student_create' %}" class="btn btn-primary mb-4">
-    Add Student
-</a>
-=======
-{% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
-
-<a href="{% url 'student_add' %}" class="btn btn-success">
-Add Student
-</a>
-
-{% endif %}
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-<form method="GET">
-
-<div class="row">
-
-<div class="col-md-6">
-
-<input
-
-type="text"
-
-name="search"
-
-class="form-control"
-
-placeholder="Search Student"
-
-value="{{ search }}">
-
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+    <div>
+        <h2 class="mb-0">Student List</h2>
+        <p class="text-muted mb-0">Browse students, search by name, and manage records.</p>
+    </div>
+    {% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
+        <a href="{% url 'student_create' %}" class="btn btn-primary">Add Student</a>
+    {% endif %}
 </div>
 
-<div class="col-md-2">
-
-<button
-
-class="btn btn-primary">
-
-Search
-
-</button>
-
+<div class="card card-body mb-4 shadow-sm">
+    <form method="GET">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-8">
+                <input type="text" name="search" class="form-control" placeholder="Search students by name or email" value="{{ search }}">
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary w-100">Search</button>
+            </div>
+        </div>
+    </form>
 </div>
 
-</div>
-
-</form>
-
-<br>
-<<<<<<< HEAD
-
-=======
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-<table class="table table-bordered table-striped">
-
-    <thead class="table-dark">
-
+<table class="table table-hover align-middle shadow-sm bg-white">
+    <thead class="table-light">
         <tr>
-
             <th>ID</th>
-
             <th>Name</th>
-
             <th>Email</th>
-
             <th>Department</th>
-
-<<<<<<< HEAD
-            <th>Course</th>
-=======
             <th>CGPA</th>
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-
-            <th></th>
-
+            <th class="text-end">Actions</th>
         </tr>
-
     </thead>
-
     <tbody>
-
-    {% for student in students %}
-
-        <tr>
-
-            <td>{{ student.id }}</td>
-
-<<<<<<< HEAD
-            <td>{{ student.first_name }} {{ student.last_name }}</td>
-
-            <td>{{ student.email }}</td>
-
-            <td>{{ student.department }}</td>
-
-            <td>{{ student.course.name }}</td>
-
-            <td>
-
-               <a
-=======
-            <td>{{ student.user.get_full_name }}</td>
-
-            <td>{{ student.user.email }}</td>
-
-            <td>{{ student.user.department }}</td>
-
-            <td>{{ student.user.cgpa }}</td>
-
-         <td>
-
-<a
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-href="{% url 'student_detail' student.id %}"
-class="btn btn-primary btn-sm">
-
-View
-
-</a>
-
-<<<<<<< HEAD
-
-<a href="{% url 'student_update' student.id %}"
-=======
-{% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
-
-<a href="{% url 'student_edit' student.id %}"
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-class="btn btn-warning btn-sm">
-Edit
-</a>
-
-<<<<<<< HEAD
-            </td>
-=======
-{% endif %}
-
-{% if request.user.role == "ADMIN" %}
-
-<a href="{% url 'student_delete' student.id %}"
-class="btn btn-danger btn-sm">
-Delete
-</a>
-
-{% endif %}
-
-</td>
->>>>>>> 55f446f62b805e1efa4543d3c8914ae878010cd5
-
-        </tr>
-
-    {% empty %}
-
-        <tr>
-
-            <td colspan="6">
-
-                No students found.
-
-            </td>
-
-        </tr>
-
-    {% endfor %}
-
+        {% for student in students %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.user.get_full_name }}</td>
+                <td>{{ student.user.email }}</td>
+                <td>{{ student.department.name|default:'N/A' }}</td>
+                <td>{{ student.cgpa }}</td>
+                <td class="text-end">
+                    <a href="{% url 'student_detail' student.id %}" class="btn btn-sm btn-outline-primary me-1">View</a>
+                    {% if request.user.role == "ADMIN" or request.user.role == "TEACHER" %}
+                        <a href="{% url 'student_update' student.id %}" class="btn btn-sm btn-outline-warning me-1">Edit</a>
+                    {% endif %}
+                    {% if request.user.role == "ADMIN" %}
+                        <a href="{% url 'student_delete' student.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="text-center py-4">No students found.</td>
+            </tr>
+        {% endfor %}
     </tbody>
-
 </table>
-
 {% endblock %}
