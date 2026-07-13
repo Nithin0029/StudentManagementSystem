@@ -6,7 +6,7 @@ from .serializers import (
     StudentSerializer,
     StudentWriteSerializer,
 )
-
+from rest_framework.permissions import IsAuthenticated
 
 class StudentListCreateAPI(generics.ListCreateAPIView):
 
@@ -26,6 +26,7 @@ class StudentListCreateAPI(generics.ListCreateAPIView):
 class StudentRetrieveUpdateDestroyAPI(
     generics.RetrieveUpdateDestroyAPIView
 ):
+    permission_classes = [IsAuthenticated]
 
     queryset = Student.objects.select_related(
         "user",
